@@ -74,7 +74,7 @@ public:
 
     void split(Node<T,n> node, bool isRoot) {
         int midElem;
-        Node<T,n> *dummy1, *dummy2, *dummy3;
+        Node<T,n> *dummy1, *dummy2;
         dummy1 = new Node<T,n>(order);
         dummy1->isleaf = true;
         if (isRoot) {
