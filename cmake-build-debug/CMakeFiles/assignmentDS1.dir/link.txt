@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\assignmentDS1.dir/objects.a
+C:\Users\andre\MinGW\bin\ar.exe cr CMakeFiles\assignmentDS1.dir/objects.a @CMakeFiles\assignmentDS1.dir\objects1.rsp
+C:\Users\andre\MinGW\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\assignmentDS1.dir/objects.a -Wl,--no-whole-archive -o assignmentDS1.exe -Wl,--out-implib,libassignmentDS1.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\assignmentDS1.dir\linklibs.rsp
