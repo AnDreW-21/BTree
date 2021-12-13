@@ -1,16 +1,18 @@
+#include <iostream>
+
 using namespace std;
 
-template<typename T>
+template<typename T ,int n>
 struct Node {
     int size;
     T *value;
     Node **child;
     int count;
 public:
-    Node(int size) {
+    Node() {
         count = 0;
         isLeaf = false;
-        this->size = size;
+        this->size = n;
         this->value = new T[size];
         this->child = new Node *[size];
         for (int i = 0; i < size; i++) child[i] = nullptr;
@@ -23,7 +25,7 @@ public:
         count++;
     }
 
-    Node *findLeaf(Node<T> *root) {
+    Node *findLeaf(Node<T,n> *root) {
         if (root->isLeaf) return root;
         else {
             for (int i = 0; i < size - 1; i++) {
@@ -35,24 +37,24 @@ public:
     bool isLeaf;
 };
 
-template<typename T>
+template<typename T,int n>
 class BTree {
 private:
-    Node<T> *root;
+    Node<T,n> *root;
     int order;
 public:
-    BTree(int size) {
+    BTree() {
         root = nullptr;
-        order = size;
+        order = n;
     }
 
     void insert(T value) {
         if (root == nullptr) {
-            root = new Node<T>(order);
+            root = new Node<T,n>(order);
             root->isLeaf = true;
             root->insert(value);
         } else {
-            Node<T> *currentNode = root;
+            Node<T,n> *currentNode = root;
             while (!currentNode->isLeaf) {
                 int i;
                 for (i = 1; value > currentNode->value[i]; i++) {
@@ -70,13 +72,13 @@ public:
         }
     }
 
-    void split(Node<T> node, bool isRoot) {
+    void split(Node<T,n> node, bool isRoot) {
         int midElem;
-        Node<T> *dummy1, *dummy2, *dummy3;
-        dummy1 = new Node<T>(order);
+        Node<T,n> *dummy1, *dummy2, *dummy3;
+        dummy1 = new Node<T,n>(order);
         dummy1->isleaf = true;
         if (isRoot) {
-            dummy2 = new Node<T>(order);
+            dummy2 = new Node<T,n>(order);
             midElem = node->values[(order / 2) - 1];
             node->values[(order / 2) - 1] = 0;
             node->count--;
@@ -107,7 +109,7 @@ public:
 };
 
 int main() {
-    BTree<int> s(4);
+    BTree<int,5> s;
 
 
     return 0;
