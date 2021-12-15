@@ -4,7 +4,7 @@ using namespace std;
 
 template<typename T, int n>
 struct Node {
-    T **value;
+    T *value;
     Node **child;
     int count;
     bool isLeaf;
@@ -13,45 +13,45 @@ public:
     Node() {
         count = 0;
         isLeaf = false;
-        this->value = new T *[n];
+        this->value = new T [n];
         this->child = new Node *[n];
         for (int i = 0; i < n; i++) {
             this->child[i] = nullptr;
-            this->value[i] = nullptr;
+            this->value[i] = NULL;
         }
     }
 
     int addValue(T Value) {
         int i;
         for (i = 0; i < n; i++) {
-            if (value[i] == nullptr) break;
-            if (Value > *(value[i])) break;
+            if (value[i] == NULL) break;
+            if (Value < value[i]) break;
         }
         for (int j = i; j < count; j++) {
             value[j + 1] = value[j];
         }
-        value[i] = &Value;
+        value[i] = Value;
         count++;
         return i;
     }
 
-    Node *findLeaf(Node<T, n> *root, int val) {
+    Node *findLeaf(Node<T, n> *node, T val) {
         bool flag = false;
-        if (root->isLeaf) return root;
+        if (node->isLeaf) return node;
         else {
             for (int i = 0; i < count; i++) {
-                if (val < *(root->value[i])) {
+                if (val < node->value[i]) {
                     flag = true;
-                    return findLeaf(&(root[i]), val);
+                    return findLeaf(node->child[i], val);
                 }
             }
-            if (!flag) return findLeaf(&(root[count]), val);
+            if (!flag) return findLeaf(node-> child[count], val);
         }
     }
 
     bool exist(T val) {
         for (int i = 0; i < count; i++) {
-            if (val == *value[i]) return true;
+            if (val == value[i]) return true;
         }
         return false;
     }
@@ -69,7 +69,7 @@ public:
     void insert(T value) {
         Node<T, n> *leaf = root->findLeaf(root, value);
         leaf->addValue(value);
-        if (leaf == root)
+        if (leaf == this->root)
             split(leaf, -1);
         else
             split(leaf, 0);
@@ -79,38 +79,39 @@ public:
     void split(Node<T, n> *node, int flag) {
         if (node->count == n) {
             if (flag == -1) {
-                Node<T, n> *root = new Node<T, n>;
+                Node<T, n> *newRoot = new Node<T, n>;
                 Node<T, n> *rightChild = new Node<T, n>;
-                T *midValue = node->value[n / 2];
-                node->value[n / 2] = nullptr;
-                for (int i = n / 2 + 1; i < n-1; i++) {
-                    rightChild->addValue(*(node->value[i]));
-                    rightChild->count++;
-                    node->value[i] = nullptr;
+                T midValue = node->value[n / 2];
+                node->value[n / 2] = NULL;
+                for (int i = n / 2 + 1; i < n; i++) {
+                    rightChild->addValue(node->value[i]);
+                    node->value[i] = NULL;
                     node->count--;
                 }
-                rightChild->isLeaf= true;
-                root->addValue(*midValue);
+                newRoot->addValue(midValue);
                 node->count--;
+                rightChild->isLeaf= true;
                 node->isLeaf= true;
-                root->child[0] = node;
-                root->child[1] = rightChild;
-                this->root = root;
-                root->isLeaf= true;
-
+                newRoot->child[0] = node;
+                newRoot->child[1] = rightChild;
+                this->root = newRoot;
             } else {
-                T *midValue = node->value[n / 2];
-                Node<T, n> *parent = findParent(*midValue);
-                node->value[n / 2] = nullptr;
-                int index = parent->addValue(*midValue);
-                for (int i = index + 1; i < parent->count - index + 1; i++) {
+                T midValue = node->value[n / 2];
+                Node<T, n> *parent = findParent(midValue);
+                node->value[n / 2] = NULL;
+                node->count--;
+                int index = parent->addValue(midValue);
+                for (int i = index+1; i < parent->count; i++) {
                     parent->child[i + 1] = parent->child[i];
                 }
-                parent->child[index + 1] = new Node<T, n>;
+                Node<T,n> *newNode= new Node<T,n>;
+                newNode->isLeaf= true;
                 for (int i = n / 2 + 1; i < n; i++) {
-                    parent->child[index + 1]->addValue(*node->value[i]);
-                    node->value[i] = nullptr;
+                    newNode->addValue(node->value[i]);
+                    node->value[i] = NULL;
+                    node->count--;
                 }
+                parent->child[index + 1] = newNode;
             }
         }
     }
@@ -121,7 +122,7 @@ public:
         while (!current->exist(value)) {
             bool found = false;
             for (int i = 0; i < current->count; i++) {
-                if (value < *current->value[i]) {
+                if (value < current->value[i]) {
                     found = true;
                     parent = current;
                     current = current->child[i];
@@ -138,13 +139,13 @@ public:
 };
 
 int main() {
-    BTree<char, 4> s;
-    s.insert('a');
-    s.insert('b');
-    s.insert('c');
+    BTree<char, 3> s;
+    s.insert('x');
+    s.insert('f');
+    s.insert('g');
     s.insert('d');
     s.insert('e');
-    s.insert('x');
+    s.insert('z');
 
     return 0;
 }
