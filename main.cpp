@@ -156,7 +156,7 @@ public:
 };
 
 int main() {
-    BTree<char, 5> s;
+    BTree<char, 3> s;
     s.insert('x');
     s.insert('f');
     s.insert('g');
