@@ -27,7 +27,8 @@ public:
             if (value[i] == NULL) break;
             if (Value < value[i]) break;
         }
-        for (int j = i; j < count; j++) {
+
+        for (int j = count; j >=i; j--) {
             value[j + 1] = value[j];
         }
         value[i] = Value;
@@ -139,7 +140,7 @@ public:
 };
 
 int main() {
-    BTree<char, 3> s;
+    BTree<char, 5> s;
     s.insert('x');
     s.insert('f');
     s.insert('g');
