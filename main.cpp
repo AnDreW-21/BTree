@@ -16,9 +16,17 @@ public:
         this->value = new T[n];
         this->child = new Node *[n];
         for (int i = 0; i < n; i++) {
-            this->child[i] = nullptr;
+            this->child[i] = NULL;
             this->value[i] = NULL;
         }
+    }
+
+    bool isNIL() {
+        for (int i = 0; i < n; i++) {
+            if (!(this->child[i] == NULL))
+                return false;
+        }
+        return true;
     }
 
     int addValue(T Value) {
@@ -67,23 +75,29 @@ public:
         root->isLeaf = true;
     }
 
-    void insert(T value) {
+    void Insert(T value) {
         Node<T, n> *leaf = root->findLeaf(root, value);
         leaf->addValue(value);
         if (leaf == this->root)
-            split(leaf, -1);
+            split(leaf, true);
         else
-            split(leaf, 0);
+            split(leaf, false);
 
     }
 
-    void split(Node<T, n> *node, int flag) {
+    void split(Node<T, n> *node, bool flag) {
         if (node->count == n) {
-            if (flag == -1) {
+            if (flag) {
                 Node<T, n> *newRoot = new Node<T, n>;
                 Node<T, n> *rightChild = new Node<T, n>;
                 T midValue = node->value[n / 2];
                 node->value[n / 2] = NULL;
+                int j = 0;
+                for (int i = n / 2; i < node->count + 1; ++i) {
+                    rightChild->child[j] = node->child[i];
+                    node->child[i] = NULL;
+                    j++;
+                }
                 for (int i = n / 2 + 1; i < n; i++) {
                     rightChild->addValue(node->value[i]);
                     node->value[i] = NULL;
@@ -91,8 +105,8 @@ public:
                 }
                 newRoot->addValue(midValue);
                 node->count--;
-                rightChild->isLeaf = true;
-                node->isLeaf = true;
+                rightChild->isLeaf = rightChild->isNIL();
+                node->isLeaf = node->isNIL();
                 newRoot->child[0] = node;
                 newRoot->child[1] = rightChild;
                 this->root = newRoot;
@@ -102,18 +116,26 @@ public:
                 node->value[n / 2] = NULL;
                 node->count--;
                 int index = parent->addValue(midValue);
-                for (int i = index + 1; i < parent->count; i++) {
+                for (int i = parent->count; i >= index + 1; i--) {
                     parent->child[i + 1] = parent->child[i];
                 }
                 Node<T, n> *newNode = new Node<T, n>;
-                newNode->isLeaf = true;
                 for (int i = n / 2 + 1; i < n; i++) {
                     newNode->addValue(node->value[i]);
                     node->value[i] = NULL;
                     node->count--;
                 }
                 parent->child[index + 1] = newNode;
+                newNode->isLeaf = newNode->isNIL();
+                if (parent->count == n) {
+                    if (parent == root) {
+                        split(parent, true);
+                    } else {
+                        split(parent, false);
+                    }
+                }
             }
+
         }
     }
 
@@ -138,32 +160,58 @@ public:
         return parent;
     }
 
-    void traverse(Node<T,n> *root) {
-        if(root== nullptr)
-            return;
-        int i;
-        for(i=0;i<root->count;i++){
-            cout<<root->value[i];
-        }cout<<"\n";
-        for (int j = 0; j <root->count+1; j++) {
-            traverse(root->child[i]);
+    void traverse(Node<T, n> *root) {
+        if (root == NULL) return;
+        else {
+            int i;
+            for (i = 0; i < root->count; i++) {
+                cout << root->value[i];
+            }
+            for (int j = 0; j <= root->count; j++) {
+                traverse(root->child[j]);
+            }
+
+
         }
-        cout<<endl;
     }
-    void print(){
+//        if(root== NULL)
+//            return;
+//        int i;
+//        for(i=0;i<root->count;i++){
+//            cout<<root->value[i];
+//        }cout<<"\n";
+//        for (int j = 0; j <root->count+1; j++) {
+//            traverse(root->child[i]);
+//        }
+//        cout<<endl;
+
+    void print() {
         traverse(root);
     }
 };
 
 int main() {
-    BTree<char, 3> s;
-    s.insert('x');
-    s.insert('f');
-    s.insert('g');
-    s.insert('d');
-    s.insert('e');
-    s.insert('z');
-    s.print();
+    BTree<char, 5> t;
+    t.Insert('G');
+    t.Insert('I');
+    t.Insert('B');
+    t.Insert('J');
+    t.Insert('C');
+    t.Insert('A');
+    t.Insert('K');
+    t.Insert('E');
+    t.Insert('D');
+    t.Insert('S');
+    t.Insert('T');
+    t.Insert('R');
+    t.Insert('L');
+    t.Insert('F');
+    t.Insert('H');
+    t.Insert('M');
+    t.Insert('N');
+    t.Insert('P');
+    t.Insert('Q');
+    t.print();
 
     return 0;
 }
