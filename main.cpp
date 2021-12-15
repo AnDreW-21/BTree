@@ -13,7 +13,7 @@ public:
     Node() {
         count = 0;
         isLeaf = false;
-        this->value = new T [n];
+        this->value = new T[n];
         this->child = new Node *[n];
         for (int i = 0; i < n; i++) {
             this->child[i] = nullptr;
@@ -28,7 +28,7 @@ public:
             if (Value < value[i]) break;
         }
 
-        for (int j = count; j >=i; j--) {
+        for (int j = count; j >= i; j--) {
             value[j + 1] = value[j];
         }
         value[i] = Value;
@@ -46,7 +46,7 @@ public:
                     return findLeaf(node->child[i], val);
                 }
             }
-            if (!flag) return findLeaf(node-> child[count], val);
+            if (!flag) return findLeaf(node->child[count], val);
         }
     }
 
@@ -91,8 +91,8 @@ public:
                 }
                 newRoot->addValue(midValue);
                 node->count--;
-                rightChild->isLeaf= true;
-                node->isLeaf= true;
+                rightChild->isLeaf = true;
+                node->isLeaf = true;
                 newRoot->child[0] = node;
                 newRoot->child[1] = rightChild;
                 this->root = newRoot;
@@ -102,11 +102,11 @@ public:
                 node->value[n / 2] = NULL;
                 node->count--;
                 int index = parent->addValue(midValue);
-                for (int i = index+1; i < parent->count; i++) {
+                for (int i = index + 1; i < parent->count; i++) {
                     parent->child[i + 1] = parent->child[i];
                 }
-                Node<T,n> *newNode= new Node<T,n>;
-                newNode->isLeaf= true;
+                Node<T, n> *newNode = new Node<T, n>;
+                newNode->isLeaf = true;
                 for (int i = n / 2 + 1; i < n; i++) {
                     newNode->addValue(node->value[i]);
                     node->value[i] = NULL;
@@ -137,6 +137,22 @@ public:
         }
         return parent;
     }
+
+    void traverse(Node<T,n> *root) {
+        if(root== nullptr)
+            return;
+        int i;
+        for(i=0;i<root->count;i++){
+            cout<<root->value[i];
+        }cout<<"\n";
+        for (int j = 0; j <root->count+1; j++) {
+            traverse(root->child[i]);
+        }
+        cout<<endl;
+    }
+    void print(){
+        traverse(root);
+    }
 };
 
 int main() {
@@ -147,6 +163,7 @@ int main() {
     s.insert('d');
     s.insert('e');
     s.insert('z');
+    s.print();
 
     return 0;
 }
