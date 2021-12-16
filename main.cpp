@@ -91,7 +91,7 @@ public:
                 node->value[n / 2] = NULL;
                 if (!node->isNIL()) {
                     int j = 1;
-                    for (int i = n /2+1; i < node->count ; ++i) {
+                    for (int i = n /2+2; i < node->count+1 ; ++i) {
                         rightChild->child[j] = node->child[i];
                         node->child[i] = NULL;
                         j++;
@@ -114,7 +114,7 @@ public:
                 node->value[n / 2] = NULL;
                 node->count--;
                 int index = parent->addValue(midValue);
-                for (int i = parent->count; i >= index ; i--) {
+                for (int i = parent->count; i >= index+1 ; i--) {
                     parent->child[i + 1] = parent->child[i];
                 }
                 Node<T, n> *newNode = new Node<T, n>;
@@ -126,6 +126,8 @@ public:
                 parent->child[index+1] = newNode;
                 if (parent->count == n) {
                     if (parent == root) {
+                        cout<<"\n";
+                        traverse(root);
                         split(parent, true);
                     } else {
                         split(parent, false);
@@ -178,25 +180,63 @@ public:
 int main() {
     BTree<char, 5> t;
     t.Insert('G');
-    t.Insert('I');
-    t.Insert('B');
-    t.Insert('J');
-    t.Insert('C');
-    t.Insert('A');
-    t.Insert('K');
-    t.Insert('E');
-    t.Insert('D');
-    t.Insert('S');
-    t.Insert('T');
-    t.Insert('R');
-    t.Insert('L');
-    t.Insert('F');
-    t.Insert('H');
-    t.Insert('M');
-    t.Insert('N');
-    t.Insert('P');
-    t.Insert('Q');
+    cout<<"\n";
     t.print();
+    t.Insert('I');
+    cout<<"\n";
+    t.print();
+    t.Insert('B');
+    cout<<"\n";
+    t.print();
+    t.Insert('J');
+    cout<<"\n";
+    t.print();
+    t.Insert('C');
+    cout<<"\n";
+    t.print();
+    t.Insert('A');
+    cout<<"\n";
+    t.print();
+    t.Insert('K');
+    cout<<"\n";
+    t.print();
+    t.Insert('E');
+    cout<<"\n";
+    t.print();
+    t.Insert('D');
+
+    cout<<"\n";
+    t.print();
+    t.Insert('S');
+    cout<<"\n";
+    t.print();t.Insert('T');
+    cout<<"\n";
+    t.print();t.Insert('R');
+    cout<<"\n";
+    t.print();t.Insert('L');
+    cout<<"\n";
+    t.print();t.Insert('F');
+    cout<<"\n";
+    t.print();t.Insert('H');
+    cout<<"\n";
+    t.print();t.Insert('M');
+    cout<<"\n";
+    t.print();t.Insert('N');
+    cout<<"\n";
+    t.print();t.Insert('P');
+    t.Insert('Q');
+    cout<<"\n";
+    t.print();
+    BTree<int,3> t1;
+    t1.Insert(1);
+    t1.Insert(5);
+    t1.Insert(0);
+    t1.Insert(4);
+    t1.Insert(3);
+    t1.Insert(2);
+    cout<<"\n";
+    t1.print();
+
 
     return 0;
 }
