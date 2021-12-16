@@ -11,12 +11,12 @@ public:
     Node() {
         count = 0;
         this->value = new T[n];
-        this->child = new Node *[n+1];
+        this->child = new Node *[n + 1];
         for (int i = 0; i < n; i++) {
             this->child[i] = NULL;
             this->value[i] = NULL;
         }
-        this->child[n]=NULL;
+        this->child[n] = NULL;
     }
 
     bool isNIL() {
@@ -91,12 +91,12 @@ public:
                 node->value[n / 2] = NULL;
                 if (!node->isNIL()) {
                     int j = 1;
-                    for (int i = n /2+2; i < node->count+1 ; ++i) {
+                    for (int i = n / 2 + 2; i < node->count + 1; ++i) {
                         rightChild->child[j] = node->child[i];
                         node->child[i] = NULL;
                         j++;
                     }
-                    rightChild->child[0]=node->child[n/2+1];
+                    rightChild->child[0] = node->child[n / 2 + 1];
                 }
                 for (int i = n / 2 + 1; i < n; i++) {
                     rightChild->addValue(node->value[i]);
@@ -114,7 +114,7 @@ public:
                 node->value[n / 2] = NULL;
                 node->count--;
                 int index = parent->addValue(midValue);
-                for (int i = parent->count; i >= index+1 ; i--) {
+                for (int i = parent->count; i >= index + 1; i--) {
                     parent->child[i + 1] = parent->child[i];
                 }
                 Node<T, n> *newNode = new Node<T, n>;
@@ -123,11 +123,9 @@ public:
                     node->value[i] = NULL;
                     node->count--;
                 }
-                parent->child[index+1] = newNode;
+                parent->child[index + 1] = newNode;
                 if (parent->count == n) {
                     if (parent == root) {
-                        cout<<"\n";
-                        traverse(root);
                         split(parent, true);
                     } else {
                         split(parent, false);
@@ -159,84 +157,102 @@ public:
         return parent;
     }
 
-    void traverse(Node<T, n> *root) {
+    void traverse(Node<T, n> *root, int depth = 0) {
         if (root == NULL) return;
         else {
             int i;
+            for (int j = 0; j < depth; ++j) {
+                cout << " ";
+            }
             for (i = 0; i < root->count; i++) {
                 cout << root->value[i];
+                if (i < root->count - 1) {
+                    cout << ",";
+                }
             }
+            cout << "\n";
             for (int j = 0; j <= root->count; j++) {
-                traverse(root->child[j]);
+                traverse(root->child[j], depth + 1);
             }
         }
     }
 
-    void print() {
+    void Print() {
         traverse(root);
     }
 };
 
 int main() {
-    BTree<char, 5> t;
-    t.Insert('G');
-    cout<<"\n";
-    t.print();
-    t.Insert('I');
-    cout<<"\n";
-    t.print();
-    t.Insert('B');
-    cout<<"\n";
-    t.print();
-    t.Insert('J');
-    cout<<"\n";
-    t.print();
-    t.Insert('C');
-    cout<<"\n";
-    t.print();
-    t.Insert('A');
-    cout<<"\n";
-    t.print();
-    t.Insert('K');
-    cout<<"\n";
-    t.print();
-    t.Insert('E');
-    cout<<"\n";
-    t.print();
-    t.Insert('D');
+    // Construct a BTree of order 3, which stores int data
+    BTree<int,5>v;
+    v.Insert(2);
+    v.Insert(1);
+    v.Insert(3);
+    v.Insert(5);
+    v.Insert(6);
+    v.Insert(4);
+    v.Insert(8);
+    v.Insert(7);
+    v.Insert(10);
+    v.Insert(12);
+    v.Insert(11);
+    v.Insert(13);
+    v.Insert(15);
+    v.Insert(17);
+    v.Insert(20);
+    v.Insert(22);
+    v.Insert(21);
 
-    cout<<"\n";
-    t.print();
-    t.Insert('S');
-    cout<<"\n";
-    t.print();t.Insert('T');
-    cout<<"\n";
-    t.print();t.Insert('R');
-    cout<<"\n";
-    t.print();t.Insert('L');
-    cout<<"\n";
-    t.print();t.Insert('F');
-    cout<<"\n";
-    t.print();t.Insert('H');
-    cout<<"\n";
-    t.print();t.Insert('M');
-    cout<<"\n";
-    t.print();t.Insert('N');
-    cout<<"\n";
-    t.print();t.Insert('P');
-    t.Insert('Q');
-    cout<<"\n";
-    t.print();
-    BTree<int,3> t1;
+    v.Print();
+    BTree<int, 3> t1;
     t1.Insert(1);
     t1.Insert(5);
     t1.Insert(0);
     t1.Insert(4);
     t1.Insert(3);
     t1.Insert(2);
-    cout<<"\n";
-    t1.print();
-
-
+    t1.Print(); // Should output the following on the screen:
+    /*
+    1,4
+      0
+      2,3
+      5
+    */
+    // Construct a BTree of order 5, which stores char data
+    BTree<char, 5> t;
+    // Look at the example in our lecture:
+    t.Insert('G');
+    t.Insert('I');
+    t.Insert('B');
+    t.Insert('J');
+    t.Insert('C');
+    t.Insert('A');
+    t.Insert('K');
+    t.Insert('E');
+    t.Insert('D');
+    t.Insert('S');
+    t.Insert('T');
+    t.Insert('R');
+    t.Insert('L');
+    t.Insert('F');
+    t.Insert('H');
+    t.Insert('M');
+    t.Insert('N');
+    t.Insert('P');
+    t.Insert('Q');
+    t.Print(); // Should output the following on the screen:
+    /*
+    K
+      C,G
+        A,B
+        D,E,F
+        H,I,J
+      N,R
+        L,M
+        P,Q
+        S,T
+    */
     return 0;
+
+
 }
