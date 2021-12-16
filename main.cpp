@@ -46,13 +46,14 @@ public:
         bool flag = false;
         if (node->isNIL()) return node;
         else {
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < node->count; i++) {
                 if (val < node->value[i]) {
+                    cout<<node->value[i]<<" ";
                     flag = true;
                     return findLeaf(node->child[i], val);
                 }
             }
-            if (!flag) return findLeaf(node->child[count], val);
+            if (!flag) return findLeaf(node->child[node->count], val);
         }
     }
 
@@ -202,6 +203,11 @@ int main() {
     v.Insert(20);
     v.Insert(22);
     v.Insert(21);
+    v.Insert(40);
+    v.Insert(9);
+
+
+
 
     v.Print();
     BTree<int, 3> t1;
