@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/assignmentDS1.dir/main.cpp.obj"
+  "CMakeFiles/assignmentDS1.dir/main.cpp.obj.d"
   "assignmentDS1.exe"
   "assignmentDS1.exe.manifest"
   "assignmentDS1.pdb"
