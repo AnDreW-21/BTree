@@ -14,7 +14,8 @@ public:
         count = 0;
         this->value = new T[n];
         this->child = new Node *[n + 1];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
+        {
             this->child[i] = NULL;
             this->value[i] = NULL;
         }
@@ -194,20 +195,18 @@ public:
         {
             int i;
             for (int j = 0; j < depth; ++j) cout << " ";
-            for (i = 0; i < root->count; i++) {
+            for (i = 0; i < root->count; i++)
+            {
                 cout << root->value[i];
-                if (i < root->count - 1) {
-                    cout << ",";
-                }
+                if (i < root->count - 1) cout << ",";
             }
             cout << "\n";
-            for (int j = 0; j <= root->count; j++) {
-                traverse(root->child[j], depth + 1);
-            }
+            for (int j = 0; j <= root->count; j++) traverse(root->child[j], depth + 1);
         }
     }
 
-    void Print() {
+    void Print()
+    {
         traverse(root);
     }
 };
